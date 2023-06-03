@@ -13,10 +13,5 @@ a:visited {
 
 a.active {
   font-weight: bold;
-  color: crimson;
-}
-
-.logout,
-h4 {
-  cursor: pointer;
+  color: #fa5252;
 }
