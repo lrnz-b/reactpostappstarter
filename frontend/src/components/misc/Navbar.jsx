@@ -2,6 +2,7 @@ import { MantineLogo } from '@mantine/ds';
 import { useDisclosure } from '@mantine/hooks';
 import { NavLink } from "react-router-dom";
 import useBoundStore from "../../store/Store";
+import SchemeToggle from './SchemeToggle';
 import {
   createStyles,
   Header,
@@ -54,6 +55,11 @@ const useStyles = createStyles((theme) => ({
     justifyContent: 'center',
   },
 
+  schemeToggler: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+
   hiddenMobile: {
     [theme.fn.smallerThan('sm')]: {
       display: 'none',
@@ -83,36 +89,39 @@ const Navbar = () => {
           <NavLink to="/" className={classes.logo}>
             <MantineLogo size={30} color='red'/>
           </NavLink>
+
           <Group sx={{ height: '100%' }} spacing={0} className={classes.hiddenMobile}>
             <NavLink to="/" className={classes.link}>
               <Text>Home</Text>
             </NavLink>
-
             {!!user && (
               <NavLink to="posts" className={classes.link}>
                 <Text>Posts</Text>
               </NavLink>
             )}
-
           </Group>
 
+          <Group className={classes.hiddenMobile}>
           {!!user 
             ? (<NavLink to="/" onClick={onLogout}>
-                <Button className={`${classes.authBtn} ${classes.hiddenMobile}`}>
+                <Button className={classes.authBtn}>
                   Logout
                 </Button>
               </NavLink>)
             : (
               <NavLink to="login">
-                <Button className={`${classes.authBtn} ${classes.hiddenMobile}`}>
+                <Button className={classes.authBtn}>
                   Log in
                 </Button>
               </NavLink>)
           }
+            <SchemeToggle />
+          </Group>
 
           <Burger opened={drawerOpened} onClick={toggleDrawer} className={classes.hiddenDesktop} />
         </Group>
       </Header>
+
       <Drawer
         opened={drawerOpened}
         onClose={closeDrawer}
@@ -123,6 +132,11 @@ const Navbar = () => {
         zIndex={1000000}
       >
         <ScrollArea h={`calc(100vh - ${rem(60)})`} mx="-md">
+          <Divider my="sm" color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'} />
+          <Group className={`${classes.link} ${classes.schemeToggler}`}>
+            <Text>{theme.colorScheme === 'dark' ? 'Dark ' : 'Light '} Mode</Text>
+            <SchemeToggle />
+          </Group>
           <Divider my="sm" color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'} />
           <NavLink to="/" className={classes.link} onClick={closeDrawer}>
             <Text>Home</Text>
