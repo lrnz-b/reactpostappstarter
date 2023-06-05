@@ -1,10 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useBoundStore from "../../store/Store";
+import {
+  TextInput,
+  PasswordInput,
+  Paper,
+  Title,
+  Container,
+  Button,
+} from '@mantine/core';
 
-const LoginPage = () => {
+const LoginPage = () => { 
   const navigate = useNavigate();
-  const { loginService, authLoading, user } = useBoundStore((state) => state);
+  const { loginService, user } = useBoundStore((state) => state);
+  const [ credentials, setCredentials ] = useState({user:"", pass:""});
 
   useEffect(() => {
     if (!!user) {
@@ -12,47 +21,53 @@ const LoginPage = () => {
     }
   }, [user]);
 
+  const onTextInput = (event) => {
+    const userName = event.currentTarget.value
+    setCredentials(state => ({
+      ...state,
+      user: userName
+    }));
+  }
+
+  const onPasswordInput = (event) => {
+    const passWord = event.currentTarget.value
+    setCredentials(state => ({
+      ...state,
+      password: passWord
+    }));
+  }
+
   const onLogin = async (e) => {
     e.preventDefault();
-    let email = e.target.email?.value;
-    let password = e.target.password?.value;
-    if (!email || !password) return;
-    loginService(email, password);
+    if (!credentials.user || !credentials.password) return;
+    loginService(credentials.user, credentials.password);
   };
+
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
-      <form onSubmit={onLogin}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gridGap: "20px",
-            background: "#d3d3d3",
-            padding: "50px",
-          }}
-        >
-          <h1>This is the login page</h1>
-          <input
-            placeholder="email"
-            name="email"
-            type="email"
-            required
-            style={{ minWidth: "320px", height: "26px" }}
-          />
-          <input
-            placeholder="password"
-            name="password"
-            type="password"
-            required
-            style={{ minWidth: "320px", height: "26px" }}
-          />
-          <button type="submit">login</button>
-          {authLoading ? <h2>Loading...</h2> : null}
-        </div>
-      </form>
-    </div>
+    <Container size={420} my={40}>
+      <Title
+        align="center"
+        sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily}`, fontWeight: 900 })}>
+        Welcome back!
+      </Title>
+      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+        <TextInput 
+          onChange={onTextInput}
+          label="Email" 
+          placeholder="you@mantine.dev" 
+          required />
+        <PasswordInput 
+          onChange={onPasswordInput} 
+          label="Password" 
+          placeholder="Your password" 
+          mt="md"
+          required  />
+        <Button fullWidth mt="xl" onClick={onLogin}>
+          Sign in
+        </Button>
+      </Paper>
+    </Container>
   );
-};
+}
 
 export default LoginPage;
