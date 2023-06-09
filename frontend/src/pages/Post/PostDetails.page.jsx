@@ -1,17 +1,20 @@
+import { useLoaderData } from "react-router-dom";
 import DOMAIN from "../../services/endpoint";
 import axios from "axios";
 
 function PostDetailsPage() {
+  const postDetails = useLoaderData();
+
   return (
     <>
-      <p>This page shows post details!</p>
+      <p>{postDetails.title}</p>
     </>
   );
 }
 
 export const postDetailsLoader = async ({ params }) => {
-  // do something with this
-  return null;
+  const res = await axios.get(`${DOMAIN}/api/posts/${params.id}`);
+  return res.data;
 };
 
 export default PostDetailsPage;
