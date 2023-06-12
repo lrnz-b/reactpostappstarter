@@ -7,6 +7,7 @@ import {
   verifyUser,
   parseToken,
   addPost,
+  updatePost,
   posts,
   sleep,
 } from "./fakedb";
@@ -55,6 +56,12 @@ app.get("/api/posts/:id", (req, res) => {
     : null;
   res.json({...postDetails, creatorEmail: creatorEmail});
 });
+
+app.post("/api/posts/:id", (req, res) => {
+  updatePost(req.body);
+  res.status(200).json({ success: true });
+})
+
 
 /**
  * Problems with this:

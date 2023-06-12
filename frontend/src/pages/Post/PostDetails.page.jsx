@@ -2,20 +2,19 @@ import axios from "axios";
 import DOMAIN from "../../services/endpoint";
 import { decodeToken } from '../../services/jwt.service';
 import { useState } from 'react';
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { IconEditCircle } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
 import {
   Box,
-  Button,
   createStyles,
   getStylesRef,
-  Group,
   Paper,
   rem,
-  SimpleGrid,
   Title,
   Text,
+  Group,
+  Button,
   TextInput, 
   Textarea
 } from '@mantine/core';
@@ -137,13 +136,27 @@ const Info = ({ classes, toggleEditing, postDetails }) => {
   );
 }
 
-const Editing = ({ classes, toggleEditing, postDetails }) => {
+const Editing = ({ toggleEditing, postDetails }) => {
+  const navigate = useNavigate();
+
+  const { classes } = useStyles();
+
+  const onSaveDetails = async (post) => {
+    const res = await axios.post(`${DOMAIN}/api/posts/${post.id}`, post);
+    if (res?.data.success) {
+      navigate(`/posts/${post.id}`); // triggers useLoaderData(); updates post page with new values
+      toggleEditing(); 
+    }
+  }
+
   const form = useForm({
     initialValues: {
       title: postDetails.title,
       content: postDetails.content,
       image: postDetails.image,
       category: postDetails.category,
+      userId: postDetails.userId,
+      id: postDetails.id
     }
   });
 
@@ -154,7 +167,7 @@ const Editing = ({ classes, toggleEditing, postDetails }) => {
         sx={{ justifyContent:'center', paddingBottom: '30px'}} 
         shadow="md" 
         radius="lg">
-        <form onSubmit={form.onSubmit(() => {})}>
+        <form onSubmit={form.onSubmit(onSaveDetails)}>
           <TextInput
             mt="lg"
             label="Title"

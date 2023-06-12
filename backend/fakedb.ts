@@ -41,6 +41,15 @@ export const addPost = (post: any) => {
   posts.push(post);
 };
 
+export const updatePost = (post: any) => {
+  posts.map((item, idx) => {
+    if (item.id === post.id) {
+      posts[idx] = {...item, ...post};
+    }
+    return item;
+  })
+}
+
 export const verifyUser = (email: string, password: string) => {
   const user = users.find((user) => {
     return user.email === email && user.password === password;
