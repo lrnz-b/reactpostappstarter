@@ -166,8 +166,11 @@ const Editing = ({ toggleEditing, postDetails }) => {
         className={classes.card} 
         sx={{ justifyContent:'center', paddingBottom: '30px'}} 
         shadow="md" 
-        radius="lg">
+        radius="lg"
+        pt={30} 
+        pb={30}>
         <form onSubmit={form.onSubmit(onSaveDetails)}>
+          <Title sx={{textAlign: 'center'}}>Create Post</Title>
           <TextInput
             mt="lg"
             label="Title"

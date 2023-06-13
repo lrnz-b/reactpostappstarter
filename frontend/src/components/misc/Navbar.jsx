@@ -103,13 +103,19 @@ const Navbar = () => {
 
           <Group className={classes.hiddenMobile}>
           {!!user 
-            ? (<NavLink to="/" onClick={onLogout}>
-                <Button className={classes.authBtn}>
-                  Logout
-                </Button>
-              </NavLink>)
-            : (
-              <NavLink to="login">
+            ? (<>
+                <NavLink to="posts/create">
+                  <Button variant="default">
+                    Create
+                  </Button>
+                </NavLink>
+                <NavLink to="/" onClick={onLogout}>
+                  <Button className={classes.authBtn}>
+                    Logout
+                  </Button>
+                </NavLink>
+              </>)
+            : (<NavLink to="login">
                 <Button className={classes.authBtn}>
                   Log in
                 </Button>
