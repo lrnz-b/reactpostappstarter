@@ -77,9 +77,7 @@ app.post("/api/posts", (req, res) => {
   try {
     const incomingPost = req.body;
     const { id } = jwt.verify(incomingPost.token, 'secret') as IDecodedUser; //jwt.verify solves problem 1
-
     delete incomingPost['token'];
-
     addPost({...incomingPost, userId: id, id: Date.now()}); // addPost will validate incoming post; solves problem 2
     res.status(200).json({ success: true });
   }

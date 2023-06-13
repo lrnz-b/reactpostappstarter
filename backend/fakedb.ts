@@ -33,12 +33,12 @@ export const posts = [
 
 export const addPost = (post: any) => {
   const isPost = (obj: any) => {
-    return 'id' in obj &&
-      'title' in obj &&
-      'category' in obj &&
-      'content' in obj &&
-      'image' in obj &&
-      'userId' in obj;
+    return !!obj.id &&
+      !!obj.title &&
+      !!obj.category &&
+      !!obj.content &&
+      !!obj.image &&
+      !!obj.userId;
   }
 
   //  Issues:
