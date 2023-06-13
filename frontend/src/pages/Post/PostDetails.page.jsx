@@ -170,7 +170,7 @@ const Editing = ({ toggleEditing, postDetails }) => {
         pt={30} 
         pb={30}>
         <form onSubmit={form.onSubmit(onSaveDetails)}>
-          <Title sx={{textAlign: 'center'}}>Create Post</Title>
+          <Title sx={{textAlign: 'center'}}>Edit Post</Title>
           <TextInput
             mt="lg"
             label="Title"
