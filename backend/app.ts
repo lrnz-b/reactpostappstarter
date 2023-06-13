@@ -74,9 +74,18 @@ app.post("/api/posts/:id", (req, res) => {
  *     with an empty/incorrect payload (post)
  */
 app.post("/api/posts", (req, res) => {
-  const incomingPost = req.body;
-  addPost(incomingPost);
-  res.status(200).json({ success: true });
+  try {
+    const incomingPost = req.body;
+    const { id } = jwt.verify(incomingPost.token, 'secret') as IDecodedUser; //jwt.verify solves problem 1
+
+    delete incomingPost['token'];
+
+    addPost({...incomingPost, userId: id, id: Date.now()}); // addPost will validate incoming post; solves problem 2
+    res.status(200).json({ success: true });
+  }
+  catch (err) {
+    res.status(401).json({ err });
+  }
 });
 
 app.listen(port, () => console.log("Server is running"));

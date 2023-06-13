@@ -32,12 +32,20 @@ export const posts = [
 ];
 
 export const addPost = (post: any) => {
+  const isPost = (obj: any) => {
+    return 'id' in obj &&
+      'title' in obj &&
+      'category' in obj &&
+      'content' in obj &&
+      'image' in obj &&
+      'userId' in obj;
+  }
+
   //  Issues:
   //  *     The request body contains the title, category, and image,
   //  *     but the addPost function needs to add a unique id
   //  *     and the id of the currently logged in user to the post.
-  post.id = 3;
-  post.userId = 2;
+  if (!isPost(post)) throw new Error("Invalid payload");
   posts.push(post);
 };
 

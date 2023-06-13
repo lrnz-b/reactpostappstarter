@@ -1,8 +1,14 @@
-import { TextInput, Button, Group, Box } from "@mantine/core";
-import DOMAIN from "../../services/endpoint";
-import axios from "axios";
-import { useForm } from "@mantine/form";
-import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+import DOMAIN from '../../services/endpoint';
+import { getAccessToken } from '../../services/jwt.service';
+import { useForm } from '@mantine/form';
+import { useNavigate } from 'react-router-dom';
+import { 
+  TextInput, 
+  Button, 
+  Group, 
+  Box 
+} from '@mantine/core';
 
 function CreatePostPage() {
   const navigate = useNavigate();
@@ -16,7 +22,8 @@ function CreatePostPage() {
   });
 
   const handleSubmit = async (values) => {
-    const res = await axios.post(`${DOMAIN}/api/posts`, values);
+    const token = getAccessToken();
+    const res = await axios.post(`${DOMAIN}/api/posts`, {...values, token: token});
     if (res?.data.success) {
       navigate("/posts");
     }
