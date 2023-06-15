@@ -44,8 +44,7 @@ app.post("/api/user/validation", (req, res) => {
 });
 
 app.get("/api/posts", async (req, res) => {
-  // Sleep delay goes here
-  res.json(posts);
+  sleep(1000).then(() => res.json(posts));
 });
 
 app.get("/api/posts/:id", (req, res) => {
@@ -61,7 +60,6 @@ app.post("/api/posts/:id", (req, res) => {
   updatePost(req.body);
   res.status(200).json({ success: true });
 })
-
 
 /**
  * Problems with this:
