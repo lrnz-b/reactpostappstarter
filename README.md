@@ -1,4 +1,4 @@
-# COMP 3012 - Full Stack Lab
+# COMP 3013 - Full Stack Lab
 
 Objectives: 
 - Update components to use MantineUI
